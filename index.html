@@ -265,14 +265,10 @@ quantize_btn_element.onclick = function() {
     var k = parseInt(k_selections_element.value);
     var img = new Image();
     img.onload = function() {
-      pre_quantize();
-      // Push quantize to the end of the event loop queue. Otherwise,
-      // pre_quantize doesn't execute.
-      setTimeout(function() {
-        quantize(img, quantized_img, k);
-        post_quantize();
-      }, 0);
+      quantize(img, quantized_img, k);
+      post_quantize();;
     };
+    pre_quantize();
     img.src = reader.result;
   }
   reader.readAsDataURL(files[0]);
