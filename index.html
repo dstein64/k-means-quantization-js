@@ -76,8 +76,8 @@ var get_pixel_dataset = function(img, resized_pixels) {
   return dataset;
 };
 
-// given a point and a list of neighbor points, return the index
-// for the neighbor that's closest to the point
+// Given a point and a list of neighbor points, return the index
+// for the neighbor that's closest to the point.
 var nearest_neighbor = function(point, neighbors) {
   var best_dist = Infinity; // squared distance
   var best_index = -1;
@@ -98,7 +98,7 @@ var nearest_neighbor = function(point, neighbors) {
 // Returns the centroid of a dataset.
 var centroid = function(dataset) {
   if (dataset.length === 0) return [];
-  // calculate running means
+  // Calculate running means.
   var running_centroid = [];
   for (var i = 0; i < dataset[0].length; ++i) {
     running_centroid.push(0);
@@ -112,10 +112,10 @@ var centroid = function(dataset) {
   return running_centroid;
 };
 
-// Returns the k-means centroids
+// Returns the k-means centroids.
 var k_means = function(dataset, k) {
   if (k === undefined) k = Math.min(3, dataset.length);
-  // use a seeded random number generator instead of Math.random(),
+  // Use a seeded random number generator instead of Math.random(),
   // so that k-means always produces the same centroids for the same
   // input.
   rng_seed = 0;
@@ -123,7 +123,7 @@ var k_means = function(dataset, k) {
     rng_seed = (rng_seed * 9301 + 49297) % 233280;
     return rng_seed / 233280;
   };
-  // choose initial centroids randomly
+  // Choose initial centroids randomly.
   centroids = [];
   for (var i = 0; i < k; ++i) {
     var idx = Math.floor(random() * dataset.length);
@@ -148,7 +148,7 @@ var k_means = function(dataset, k) {
       if (cluster.length > 0) {
         centroid_i = centroid(cluster);
       } else {
-        // for an empty cluster, set a random point as the centroid
+        // For an empty cluster, set a random point as the centroid.
         var idx = Math.floor(random() * dataset.length);
         centroid_i = dataset[idx];
       }
@@ -174,11 +174,11 @@ var quantize = function(img, destination_img, k) {
     quantized_h = rescaled[1];
   }
   
-  // Use a fixed maximum so that k-means works fast
+  // Use a fixed maximum so that k-means works fast.
   var MAX_K_MEANS_PIXELS = 50000;
   var pixel_dataset = get_pixel_dataset(img, MAX_K_MEANS_PIXELS);
   
-  // Calculate cluster centroids of all pixels in the image
+  // Calculate cluster centroids of all pixels in the image.
   centroids = k_means(pixel_dataset, k);
   
   var source_canvas = document.createElement("canvas");
@@ -198,7 +198,7 @@ var quantize = function(img, destination_img, k) {
   var flattened_quantized_data = new Uint8ClampedArray(
       flattened_source_data.length);
   
-  // set each pixel to its nearest centroid
+  // Set each pixel to its nearest centroid.
   for (var i = 0; i < flattened_source_data.length; i += n_channels) {
     var pixel = flattened_source_data.slice(i, i + n_channels);
     var nearest_centroid_index = nearest_neighbor(pixel, centroids);
@@ -225,7 +225,7 @@ var quantize_btn_element = document.getElementById("quantize_btn");
 var k_selections_element = document.getElementById("k_selections");
 var status_element = document.getElementById("status");
 
-// Fill k selections
+// Fill k selections.
 k_options = [2,3,4,5,6,7,8,9,10,11,12];
 default_k = 3;
 for (var i = 0; i < k_options.length; ++i) {
@@ -248,7 +248,7 @@ input_file_element.addEventListener("change", set_quantize_button);
 window.addEventListener("load", set_quantize_button);
 
 var pre_quantize = function() {
-  // clear any existing image
+  // Clear any existing image.
   if (quantized_img.hasAttribute("src")) {
     quantized_img.removeAttribute("src");
   }
@@ -265,7 +265,7 @@ var post_quantize = function() {
   status_element.textContent = "";
 };
 
-//Handle "Quantize" button
+// Handle "Quantize" button.
 quantize_btn_element.addEventListener("click", function() {
   files = input_file_element.files;
   if (!FileReader || !files || !files.length) return;
