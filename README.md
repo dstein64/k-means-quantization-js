@@ -1,7 +1,7 @@
 k-means Image Color Quantization
 ================================
 
-*k-means Image Color Quantization* is a webpage that can apply color
+*k-means Image Color Quantization* is a web page that can apply color
 quantization to images using k-means clustering.
 
 The code runs fully in the browser. That is, there are no server-side calls
