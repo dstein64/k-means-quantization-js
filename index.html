@@ -271,7 +271,7 @@ quantize_btn_element.addEventListener("click", function() {
   if (!FileReader || !files || !files.length) return;
   var quantized_img = document.getElementById("quantized_img");
   var reader = new FileReader();
-  reader.onload = function () {
+  reader.addEventListener("load", function() {
     var k = parseInt(k_selections_element.value);
     var img = new Image();
     img.onload = function() {
@@ -280,7 +280,7 @@ quantize_btn_element.addEventListener("click", function() {
     };
     pre_quantize();
     img.src = reader.result;
-  };
+  });
   reader.readAsDataURL(files[0]);
 });
 
