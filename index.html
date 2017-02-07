@@ -253,11 +253,15 @@ var pre_quantize = function() {
     quantized_img.removeAttribute("src");
   }
   quantize_btn_element.disabled = true;
+  input_file_element.disabled = true;
+  k_selections_element.disabled = true;
   status_element.textContent = "Processing...";
 };
 
 var post_quantize = function() {
   quantize_btn_element.disabled = false;
+  input_file_element.disabled = false;
+  k_selections_element.disabled = false;
   status_element.textContent = "";
 };
 
