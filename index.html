@@ -42,7 +42,7 @@ var rescale_dimensions = function(w, h, pixels) {
   var scaling_factor = Math.sqrt(pixels / aspect_ratio);
   var rescaled_w = Math.floor(aspect_ratio * scaling_factor);
   var rescaled_h = Math.floor(scaling_factor);
-  return [rescaled_w, rescaled_h]
+  return [rescaled_w, rescaled_h];
 };
 
 // Given an Image, return a dataset with pixel colors.
@@ -122,7 +122,7 @@ var k_means = function(dataset, k) {
   var random = function() {
     rng_seed = (rng_seed * 9301 + 49297) % 233280;
     return rng_seed / 233280;
-  }
+  };
   // choose initial centroids randomly
   centroids = [];
   for (var i = 0; i < k; ++i) {
@@ -169,7 +169,7 @@ var quantize = function(img, destination_img, k) {
   if (MAX_QUANTIZED_PIXELS > 0
       && quantized_h * quantized_w > MAX_QUANTIZED_PIXELS) {
     var rescaled = rescale_dimensions(
-        quantized_w, quantized_h, MAX_QUANTIZED_PIXELS)
+        quantized_w, quantized_h, MAX_QUANTIZED_PIXELS);
     quantized_w = rescaled[0];
     quantized_h = rescaled[1];
   }
@@ -268,11 +268,11 @@ quantize_btn_element.onclick = function() {
     var img = new Image();
     img.onload = function() {
       quantize(img, quantized_img, k);
-      post_quantize();;
+      post_quantize();
     };
     pre_quantize();
     img.src = reader.result;
-  }
+  };
   reader.readAsDataURL(files[0]);
 };
 
