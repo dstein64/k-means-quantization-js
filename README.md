@@ -15,6 +15,14 @@ To quantize an image, navigate to index.html, load an image, select a value for
 *k*, and click *Quantize*. The time to process increases with the size of the
 image.
 
+The page is available at
+<https://dstein64.github.io/k-means-quantization-js/>.
+
+Screenshot
+----------
+
+![Screenshot](screenshot.png)
+
 License
 -------
 
