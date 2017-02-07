@@ -237,11 +237,15 @@ for (var i = 0; i < k_options.length; ++i) {
   if (k === default_k) k_selections_element.selectedIndex = i;
 }
 
-// Enable "Quantize" button when a file has been selected
-input_file_element.onchange = function(event) {
+// Enable the quantize button if a file has been selected, and
+// disable otherwise.
+var set_quantize_button = function() {
   files = input_file_element.files;
   quantize_btn_element.disabled = !files || !files.length;
 };
+
+input_file_element.addEventListener("change", set_quantize_button);
+window.addEventListener("load", set_quantize_button);
 
 var pre_quantize = function() {
   // clear any existing image
@@ -257,8 +261,8 @@ var post_quantize = function() {
   status_element.textContent = "";
 };
 
-// Handle "Quantize" button
-quantize_btn_element.onclick = function() {
+//Handle "Quantize" button
+quantize_btn_element.addEventListener("click", function() {
   files = input_file_element.files;
   if (!FileReader || !files || !files.length) return;
   var quantized_img = document.getElementById("quantized_img");
@@ -274,7 +278,7 @@ quantize_btn_element.onclick = function() {
     img.src = reader.result;
   };
   reader.readAsDataURL(files[0]);
-};
+});
 
 </script>
 </body>
