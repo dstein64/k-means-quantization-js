@@ -275,10 +275,17 @@ quantize_btn_element.addEventListener("click", function() {
     var k = parseInt(k_selections_element.value);
     var img = new Image();
     img.onload = function() {
-      quantize(img, quantized_img, k);
-      post_quantize();
+      // Use a combination of requestAnimationFrame and setTimeout
+      // to make pre_quantize run before the next repaint,
+      // and quantize/post_quantize run after the next repaint.
+      requestAnimationFrame(function() {
+        pre_quantize();
+        setTimeout(function() {
+          quantize(img, quantized_img, k);
+          post_quantize();
+        }, 0);
+      });
     };
-    pre_quantize();
     img.src = reader.result;
   });
   reader.readAsDataURL(files[0]);
