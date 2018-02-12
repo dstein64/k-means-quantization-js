@@ -171,9 +171,13 @@ var quantize = function(img, destination_img, k) {
       flattened_source_data.length);
   
   // Set each pixel to its nearest centroid.
+  var current_pixel = new Uint8ClampedArray(n_channels);
   for (var i = 0; i < flattened_source_data.length; i += n_channels) {
-    var pixel = flattened_source_data.slice(i, i + n_channels);
-    var nearest_centroid_index = nearest_neighbor(pixel, centroids);
+    // This for loop approach is faster than using Array.slice().
+    for (var j = 0; j < n_channels; ++j) {
+      current_pixel[j] = flattened_source_data[i + j];
+    }
+    var nearest_centroid_index = nearest_neighbor(current_pixel, centroids);
     var nearest_centroid = centroids[nearest_centroid_index];
     for (var j = 0; j < nearest_centroid.length; ++j) {
       flattened_quantized_data[i+j] = nearest_centroid[j];
