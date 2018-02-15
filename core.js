@@ -197,11 +197,54 @@ var quantize = function(img, k) {
   return data_url;
 };
 
+// *************************************************
+// * HTML
+// *************************************************
+
 // HTML Elements
 var input_file_element = document.getElementById("input_file");
 var quantize_btn_element = document.getElementById("quantize_btn");
 var k_selections_element = document.getElementById("k_selections");
 var status_element = document.getElementById("status");
+var quantized_img_element = document.getElementById("quantized_img");
+var modal_element = document.getElementById('modal');
+var close_element = document.getElementById("close");
+
+ESC_KEYCODE = 27;
+
+MODAL_HIDDEN_STYLE = "none";
+MODAL_SHOWN_STYLE = "block";
+
+var hide_modal = function() {
+  modal_element.style.display = MODAL_HIDDEN_STYLE;
+};
+
+var show_modal = function() {
+  modal_element.style.display = MODAL_SHOWN_STYLE;
+};
+
+var modal_is_shown = function() {
+  return modal_element.style.display === MODAL_SHOWN_STYLE;
+};
+
+close_element.onclick = function() {
+  hide_modal();
+};
+
+modal_element.onclick = function() {
+  hide_modal();
+};
+
+document.addEventListener('keyup', function(event) {
+  if (event.keyCode === ESC_KEYCODE && modal_is_shown()) {
+    hide_modal();
+  }
+});
+
+quantized_img_element.onclick = function(event) {
+  // Prevent the click from being passed to the modal element.
+  event.stopPropagation();
+};
 
 // Fill k selections.
 k_options = [2,3,4,5,6,7,8,9,10,11,12];
@@ -258,7 +301,9 @@ quantize_btn_element.addEventListener("click", function() {
       // triggered by pre_quantize().
       requestAnimationFrame(function() {
         setTimeout(function() {
-          quantized_img.src = quantize(img, k);
+          var data_url = quantize(img, k);
+          quantized_img_element.src = data_url;
+          show_modal();
           post_quantize();
         }, 0);
       });

@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>k-means Image Color Quantization</title> 
+<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -9,6 +10,7 @@
          src="forkme_right_gray_6d6d6d.png"
          alt="Fork me on GitHub">
   </a>
+
   <h1><em>k</em>-means Image Color Quantization</h1>
   <p>Select an image, select a value for <em>k</em>, then click
   <em>Quantize</em>.</p>
@@ -22,7 +24,11 @@
   &emsp;
   <span id="status"></span>
   <br><br>
-  <img id="quantized_img" style="max-width: 100%;"></img>
+
+  <div id="modal">
+    <span id="close">&times;</span>
+    <img id="quantized_img">
+  </div>
 
 <script type="text/javascript" src="core.js"></script>
 </body>
