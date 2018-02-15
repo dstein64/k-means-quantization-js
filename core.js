@@ -132,7 +132,8 @@ var k_means = function(dataset, k) {
   return centroids;
 };
 
-var quantize = function(img, destination_img, k) {
+// Takes an <img> as input. Returns a quantized data URL.
+var quantize = function(img, k) {
   // quantized dimensions
   var quantized_w = img.width;
   var quantized_h = img.height;
@@ -192,7 +193,8 @@ var quantize = function(img, destination_img, k) {
   var image = quantized_context.createImageData(quantized_w, quantized_h);
   image.data.set(flattened_quantized_data);
   quantized_context.putImageData(image, 0, 0);
-  destination_img.src = quantized_canvas.toDataURL();
+  data_url = quantized_canvas.toDataURL();
+  return data_url;
 };
 
 // HTML Elements
@@ -256,7 +258,7 @@ quantize_btn_element.addEventListener("click", function() {
       // triggered by pre_quantize().
       requestAnimationFrame(function() {
         setTimeout(function() {
-          quantize(img, quantized_img, k);
+          quantized_img.src = quantize(img, k);
           post_quantize();
         }, 0);
       });
