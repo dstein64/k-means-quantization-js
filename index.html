@@ -12,15 +12,19 @@
   </a>
 
   <h1><em>k</em>-means Image Color Quantization</h1>
-  <p>Select an image, select a value for <em>k</em>, then click
-  <em>Quantize</em>.</p>
+  <p>Select an image (<em>gif</em>, <em>jpeg</em>, <em>png</em>, or <em>svg</em>),
+  select a value for <em>k</em>, then click <em>Quantize</em>.</p>
   <p>The quantized image can be saved by using your your browser&#8217;s
   <em>Save Image As...</em> functionality, invoked by right-clicking the image.</p>
   <label for="k_selections">k = </label>
   <!-- Selection options are set below with javascript -->
   <select id="k_selections"></select>
   &emsp;
-  <input id="input_file" type="file" accept="image/*">
+  <!--
+      The list of "considered Web safe" image formats are from:
+        https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types#Images_types
+  -->
+  <input id="input_file" type="file" accept="image/gif,image/jpeg,image/png,image/svg+xml">
   <br><br>
   <button id="quantize_btn" disabled>Quantize</button>
   &emsp;
