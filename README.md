@@ -21,7 +21,11 @@ The page is available at
 Screenshots
 -----------
 
+## Selection/Instructions
+
 ![Select](screenshots/select.png)
+
+## Quantized Image
 
 ![Quantized](screenshots/quantized.png)
 
