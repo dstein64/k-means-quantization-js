@@ -9,12 +9,24 @@
   background-color: rgba(0, 0, 0, 0.9);
 }
 
+/* Modal border */
 #modal_inner {
   position: absolute;
   top: 40px;
   bottom: 40px;
   left: 40px;
   right: 40px;
+}
+
+/* No modal border on smaller screens */
+@media only screen and (max-width: 700px){
+  #modal_inner {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+  }
 }
 
 #quantized_img {
