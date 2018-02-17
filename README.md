@@ -18,10 +18,12 @@ image.
 The page is available at
 <https://dstein64.github.io/k-means-quantization-js/>.
 
-Screenshot
-----------
+Screenshots
+-----------
 
-![Screenshot](screenshot.png)
+![Select](screenshots/select.png)
+
+![Quantized](screenshots/quantized.png)
 
 License
 -------
