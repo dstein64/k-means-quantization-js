@@ -134,19 +134,6 @@ var k_means = function(dataset, k) {
 
 // Takes an <img> as input. Returns a quantized data URL.
 var quantize = function(img, k) {
-  // quantized dimensions
-  var quantized_w = img.width;
-  var quantized_h = img.height;
-  // Resize to a smaller image to speed quantizing.
-  var MAX_QUANTIZED_PIXELS = -1;
-  if (MAX_QUANTIZED_PIXELS > 0
-      && quantized_h * quantized_w > MAX_QUANTIZED_PIXELS) {
-    var rescaled = rescale_dimensions(
-        quantized_w, quantized_h, MAX_QUANTIZED_PIXELS);
-    quantized_w = rescaled[0];
-    quantized_h = rescaled[1];
-  }
-  
   // Use a fixed maximum so that k-means works fast.
   var MAX_K_MEANS_PIXELS = 50000;
   var pixel_dataset = get_pixel_dataset(img, MAX_K_MEANS_PIXELS);
@@ -154,18 +141,20 @@ var quantize = function(img, k) {
   // Calculate cluster centroids of all pixels in the image.
   centroids = k_means(pixel_dataset, k);
   
+  var width = img.width;
+  var height = img.height;
   var source_canvas = document.createElement("canvas");
-  source_canvas.width = quantized_w;
-  source_canvas.height = quantized_h;
+  source_canvas.width = width;
+  source_canvas.height = height;
   var source_context = source_canvas.getContext("2d");
-  source_context.drawImage(img, 0, 0, quantized_w, quantized_h);
+  source_context.drawImage(img, 0, 0, width, height);
   
   // flattened_*_data = [R, G, B, a, R, G, B, a, ...] where
   // (R, G, B, a) groups each correspond to a single pixel, and they are
   // column-major ordered.
   var flattened_source_data = source_context.getImageData(
-      0, 0, quantized_w, quantized_h).data;
-  var n_pixels = quantized_w * quantized_h;
+      0, 0, width, height).data;
+  var n_pixels = width * height;
   var n_channels = flattened_source_data.length / n_pixels;
   
   var flattened_quantized_data = new Uint8ClampedArray(
@@ -186,11 +175,11 @@ var quantize = function(img, k) {
   }
   
   var quantized_canvas = document.createElement("canvas");
-  quantized_canvas.width = quantized_w;
-  quantized_canvas.height = quantized_h;
+  quantized_canvas.width = width;
+  quantized_canvas.height = height;
   var quantized_context = quantized_canvas.getContext("2d");
   
-  var image = quantized_context.createImageData(quantized_w, quantized_h);
+  var image = quantized_context.createImageData(width, height);
   image.data.set(flattened_quantized_data);
   quantized_context.putImageData(image, 0, 0);
   data_url = quantized_canvas.toDataURL();
