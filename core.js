@@ -1,3 +1,13 @@
+// *************************************************
+// * Constants
+// *************************************************
+
+var MAX_K_MEANS_PIXELS = 50000;
+
+//*************************************************
+//* Image/Data Processing
+//*************************************************
+
 // Checks for equality of elements in two arrays.
 var arrays_equal = function(a1, a2) {
   if (a1.length !== a2.length) return false;
@@ -133,14 +143,7 @@ var k_means = function(dataset, k) {
 };
 
 // Takes an <img> as input. Returns a quantized data URL.
-var quantize = function(img, k) {
-  // Use a fixed maximum so that k-means works fast.
-  var MAX_K_MEANS_PIXELS = 50000;
-  var pixel_dataset = get_pixel_dataset(img, MAX_K_MEANS_PIXELS);
-  
-  // Calculate cluster centroids of all pixels in the image.
-  centroids = k_means(pixel_dataset, k);
-  
+var quantize = function(img, colors) {
   var width = img.width;
   var height = img.height;
   var source_canvas = document.createElement("canvas");
@@ -160,17 +163,17 @@ var quantize = function(img, k) {
   var flattened_quantized_data = new Uint8ClampedArray(
       flattened_source_data.length);
   
-  // Set each pixel to its nearest centroid.
+  // Set each pixel to its nearest color.
   var current_pixel = new Uint8ClampedArray(n_channels);
   for (var i = 0; i < flattened_source_data.length; i += n_channels) {
     // This for loop approach is faster than using Array.slice().
     for (var j = 0; j < n_channels; ++j) {
       current_pixel[j] = flattened_source_data[i + j];
     }
-    var nearest_centroid_index = nearest_neighbor(current_pixel, centroids);
-    var nearest_centroid = centroids[nearest_centroid_index];
-    for (var j = 0; j < nearest_centroid.length; ++j) {
-      flattened_quantized_data[i+j] = nearest_centroid[j];
+    var nearest_color_index = nearest_neighbor(current_pixel, colors);
+    var nearest_color = centroids[nearest_color_index];
+    for (var j = 0; j < nearest_color.length; ++j) {
+      flattened_quantized_data[i+j] = nearest_color[j];
     }
   }
   
@@ -290,7 +293,10 @@ quantize_btn_element.addEventListener("click", function() {
       // triggered by pre_quantize().
       requestAnimationFrame(function() {
         setTimeout(function() {
-          var data_url = quantize(img, k);
+          // Use a fixed maximum so that k-means works fast.
+          var pixel_dataset = get_pixel_dataset(img, MAX_K_MEANS_PIXELS);
+          var centroids = k_means(pixel_dataset, k);
+          var data_url = quantize(img, centroids);
           quantized_img_element.src = data_url;
           show_modal();
           post_quantize();
@@ -302,4 +308,3 @@ quantize_btn_element.addEventListener("click", function() {
   });
   reader.readAsDataURL(files[0]);
 });
-
