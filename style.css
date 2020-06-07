@@ -23,10 +23,10 @@
 @media only screen and (max-width: 700px){
   #modal_inner {
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 
@@ -49,10 +49,10 @@
   left: 35px;
   color: #f1f1f1;
   font-size: 60px;
-  text-shadow:  1px  1px 0px rgba(0, 0, 0, 0.9),
-                1px -1px 0px rgba(0, 0, 0, 0.9),
-               -1px  1px 0px rgba(0, 0, 0, 0.9),
-               -1px -1px 0px rgba(0, 0, 0, 0.9);
+  text-shadow:  1px  1px 0 rgba(0, 0, 0, 0.9),
+                1px -1px 0 rgba(0, 0, 0, 0.9),
+               -1px  1px 0 rgba(0, 0, 0, 0.9),
+               -1px -1px 0 rgba(0, 0, 0, 0.9);
 }
 
 #close:hover, #close:focus {
